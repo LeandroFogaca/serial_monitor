@@ -3,7 +3,7 @@
     <v-app-bar
       app
       color="primary"
-      dark
+      clipped-left
     >
       <div class="d-flex align-center">
         <v-img
@@ -25,32 +25,35 @@
         />
       </div>
 
-      <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
+</v-app-bar>
+
+  <v-navigation-drawer 
+      app
+      clipped
+      permanent
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
+      <ConfigBar/>
+   </v-navigation-drawer>
 
     <v-main>
       <HelloWorld/>
     </v-main>
+  
+  
   </v-app>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld';
+import ConfigBar from "./components/ConfigBar";
 
 export default {
   name: 'App',
 
   components: {
     HelloWorld,
+    ConfigBar,
   },
 
   data: () => ({

@@ -17,22 +17,21 @@ async function listSerialPorts() {
 })
 }
 
-function listPorts() {
-  listSerialPorts();
-  setTimeout(listPorts, 2000);
-}
+// function listPorts() {
+//   listSerialPorts();
+//   setTimeout(listPorts, 2000);
+// }
 
 // Set a timeout that will check for new serialPorts every 2 seconds.
 // This timeout reschedules itself.
-setTimeout(listPorts, 2000);
+// setTimeout(listPorts, 2000);
 
 
+// var list = listSerialPorts()
 
-listSerialPorts()
 
+export  {
 
-export default {
-
-  list : listSerialPorts(),
-  foo : console.log("teste"),
+  listSerialPorts,
+   
 }
