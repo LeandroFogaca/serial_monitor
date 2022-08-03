@@ -93,12 +93,11 @@
 
 <script>
 
-
-import { renderer } from "../renderer.js";
-
+// import { renderer } from "../renderer.js";
 
 
-console.log(renderer);
+
+// console.log(renderer);
 
 
   export default {

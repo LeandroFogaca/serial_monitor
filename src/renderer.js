@@ -1,37 +1,26 @@
 
 const { SerialPort } = require('serialport')
 
-async function listSerialPorts() {
-  await SerialPort.list().then((ports, err) => {
-    if(err) {
-      console.log(err.message)
-      return
-    }
-    
-    console.log('ports', ports);
+  
+ 
 
-    if (ports.length === 0) {
-     console.log('No ports discovered');
-    }
-    
-})
+
+
+
+export const fnSerialPort = {
+  
+  listSerialPorts:  function () {
+        SerialPort.list().then((ports, err) => {
+        if(err) {
+          console.log(err.message)
+          return
+        }
+          if (ports.length === 0) {
+            console.log('No ports discovered');
+          }
+          console.log('ports', ports);
+          return ports
+        })
 }
-
-// function listPorts() {
-//   listSerialPorts();
-//   setTimeout(listPorts, 2000);
-// }
-
-// Set a timeout that will check for new serialPorts every 2 seconds.
-// This timeout reschedules itself.
-// setTimeout(listPorts, 2000);
-
-
-// var list = listSerialPorts()
-
-
-export  {
-
-  listSerialPorts,
-   
 }
+  
