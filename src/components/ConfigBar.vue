@@ -26,7 +26,6 @@
           link
           @click= "list"
         >
-
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
@@ -38,28 +37,36 @@
         </v-list-item>
       </v-list>
 
-    <v-divider></v-divider>
+      <v-divider></v-divider>
 
-      <v-list
-        dense
-        nav
-      >
-        <v-list-item
+      <v-radio-group 
+        v-model="radioGroup"
+        class="ms-6 mt-6"
+        >
+        
+        <v-radio
           v-for="port in ports"
           :key="port.name"
-          link
-        >
+          :label="`Porta: ${port.name}`"
+          :value="port.name"
+          :class="`text-caption`"
+        ></v-radio>
+      </v-radio-group>
+    
 
-          <v-list-item-content>
-            <v-list-item-title>{{ ports.name }}</v-list-item-title>
-          </v-list-item-content>
-          
-          <v-list-item-icon>
-              <v-icon>{{ ports.isOpen }}</v-icon>
-           </v-list-item-icon>
-        
-        </v-list-item>
-      </v-list>
+      <div class="text-center">
+      <v-btn
+      rounded
+      color="primary"
+      dark
+      class="pa-2 ma-6"
+      >
+          Conectar
+        </v-btn>
+      </div>
+    
+      <v-divider></v-divider>
+
       </v-container>
 </template>
 
@@ -75,18 +82,28 @@ import { fnSerialPort } from '../renderer';
             items: [
                 { title: 'Scannear portas', icon: "mdi-magnify" },
             ],
-        ports: [ 
-            { name: "COM01", isOpen: "TRUE"}
-            ],
-        right: null,
+            ports: [ 
+              
+                ],
+            right: null,
+            RadioGroup: 1,
      
       }
     },
      methods: {
-         list: function () {
-         fnSerialPort.listSerialPorts()
-         console.log(this.ports[0].name);
+         list: async function () {
+            
+            await fnSerialPort.listSerialPorts()
+            .then((res) => {
+              this.ports = res.map(
+                res => ({name: res.path}))
+                })
          }
-        }
+         }
   }
+              
+            
+            
+
+
 </script>

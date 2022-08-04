@@ -101,7 +101,7 @@
 
 
   export default {
-    name: 'HelloWorld',
+    name: 'MainPage',
 
     data: () => ({
       ecosystem: [

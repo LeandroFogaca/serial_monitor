@@ -37,7 +37,7 @@
    </v-navigation-drawer>
 
     <v-main>
-      <HelloWorld/>
+      <MainPage/>
     </v-main>
   
   
@@ -45,14 +45,14 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import MainPage from './components/MainPage';
 import ConfigBar from "./components/ConfigBar";
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    MainPage,
     ConfigBar,
   },
 
