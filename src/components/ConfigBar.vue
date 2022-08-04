@@ -40,8 +40,8 @@
       <v-divider></v-divider>
 
       <v-radio-group 
-        v-model="radioGroup"
         class="ms-6 mt-6"
+        v-model="RadioGroup"
         >
         
         <v-radio
@@ -55,11 +55,13 @@
     
 
       <div class="text-center">
+      
       <v-btn
       rounded
       color="primary"
       dark
       class="pa-2 ma-6"
+      @click="connect"
       >
           Conectar
         </v-btn>
@@ -86,19 +88,33 @@ import { fnSerialPort } from '../renderer';
               
                 ],
             right: null,
-            RadioGroup: 1,
-     
+            RadioGroup: [],
       }
     },
      methods: {
-         list: async function () {
-            
+       
+       list: async function () {
+         
             await fnSerialPort.listSerialPorts()
             .then((res) => {
               this.ports = res.map(
                 res => ({name: res.path}))
                 })
-         }
+         },
+        connect: async function () {
+
+          if(this.RadioGroup.length !== 0){
+            await fnSerialPort.connect(this.RadioGroup)
+            
+          }else{
+            console.log("selecione a porta");
+          }
+
+
+            
+            
+          }
+
          }
   }
               
