@@ -39,35 +39,68 @@
 
       <v-divider></v-divider>
 
-      <v-radio-group 
-        class="ms-6 mt-6"
-        v-model="RadioGroup"
+      <div class="text-center" v-show="showSettings">
+        
+        <v-radio-group 
+        class="ms-6 mt- 6"
+        v-model="port"
         >
         
-        <v-radio
-          v-for="port in ports"
-          :key="port.name"
-          :label="`Porta: ${port.name}`"
-          :value="port.name"
-          :class="`text-caption`"
-        ></v-radio>
-      </v-radio-group>
+          <v-radio
+            v-for="port in ports"
+            :key="port.name"
+            :label="`Porta: ${port.name}`"
+            :value="port.name"
+            :class="`text-caption`"
+          ></v-radio>
+        </v-radio-group>
     
 
-      <div class="text-center">
+        
+        
+        <v-select
+        v-model="baudRate"
+        :items="baudRates"
+        rounded
+        dense
+        label="baudRate"
+        outlined
+        ></v-select>
+        
+        <v-row>
+          
+          <v-btn
+          rounded
+          color="primary"
+          @click="connect"
+          class="pa-2 ma-6"
+          dark
+          >Conectar</v-btn>
       
-      <v-btn
-      rounded
-      color="primary"
-      dark
-      class="pa-2 ma-6"
-      @click="connect"
-      >
-          Conectar
-        </v-btn>
+          <v-btn
+          rounded
+          color="primary"
+          @click="disconnect"
+          class="pa-2 ma-6"
+          dark
+          >Desconectar</v-btn>
+      
+        </v-row>
+      
       </div>
     
       <v-divider></v-divider>
+
+      <div class="text-center pa-6" >
+
+        <v-badge
+              inline
+              :color= "isOpen"
+
+              >
+              Porta Aberta:
+              </v-badge>
+</div>
 
       </v-container>
 </template>
@@ -88,38 +121,67 @@ import { fnSerialPort } from '../renderer';
               
                 ],
             right: null,
-            RadioGroup: [],
+            port: [],
+            baudRates: [300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200],
+            baudRate: [],
+            PortOpened: [],
+            showSettings: false,
+           
       }
     },
      methods: {
        
-       list: async function () {
+        list: async function () {
          
             await fnSerialPort.listSerialPorts()
             .then((res) => {
               this.ports = res.map(
                 res => ({name: res.path}))
-                })
+                }).then(this.showSettings = true)
          },
+
         connect: async function () {
 
-          if(this.RadioGroup.length !== 0){
-            await fnSerialPort.connect(this.RadioGroup)
+          if(this.port.length !== 0){
+            await fnSerialPort.connect(this.port, this.baudRate).then((res) => {
+              this.PortOpened = res
+              console.log(res)
+          })
             
           }else{
             console.log("selecione a porta");
           }
+          },
 
-
-            
-            
-          }
+         disconnect: async function () {
+           
+           if (this.PortOpened.isOpen == true) {
+             
+             this.PortOpened.close(()=> {console.log("Porta Fechada")})
+             }
 
          }
+     },
+     computed: {
+
+      isOpen: function () {
+        
+        let e
+        if (this.PortOpened.isOpen == true) {
+          
+          e = "green"
+          
+        } 
+        
+        if (this.PortOpened.isOpen !== true) {
+          
+          e = "red"
+          
+        }
+
+        return e
+
+     },
   }
-              
-            
-            
-
-
+}
 </script>
