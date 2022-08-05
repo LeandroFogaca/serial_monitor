@@ -35,14 +35,40 @@ async function createWindow() {
   }
 }
 
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+
+
+app.on('before-quit', (e)=>{
+  
+  e.preventDefault()
+
+  console.log('before-quit');
+
+  //Fechar as portas COM
+
+
+  setTimeout(() => {
+    
+    console.log('quit');
+    app.exit()
+  }, 5000);
+
 })
+
+
+// Quit when all windows are closed.
+// app.on('window-all-closed', () => {
+//   // On macOS it is common for applications and their menu bar
+//   // to stay active until the user quits explicitly with Cmd + Q
+  
+//   console.log('window-all-close');
+  
+//   if (process.platform !== 'darwin') {
+    
+//     console.log('quit from all-closed');
+//     // app.quit()
+    
+//   }
+// })
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
@@ -63,6 +89,7 @@ app.on('ready', async () => {
     }
   }
   createWindow()
+  console.log('createWindow');
 })
 
 // Exit cleanly on request from parent process in development mode.
